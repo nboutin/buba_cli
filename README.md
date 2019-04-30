@@ -3,6 +3,11 @@
 ## ToDo
 *
 
+## Trouble Shooting
+### Error while loading shared libraries
+```sh
+sudo /sbin/ldconfig -v
+```
 
 # DELETE ME
 This file is generated from config/README.in to become README.md<br/>
