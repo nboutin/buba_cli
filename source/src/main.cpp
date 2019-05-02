@@ -53,6 +53,6 @@ void action_menu(Budget_Battle& buba)
 
     switch(read_menu_input())
     {
-    case 1: buba.import_ofx("../buba_engine/doc/res/comptes.ofx"); break;
+    case 1: buba.import_ofx("test/res/test1.ofx"); break;
     }
 }
