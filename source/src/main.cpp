@@ -8,16 +8,20 @@ using namespace buba;
 using namespace std;
 
 int read_menu_input();
-void main_menu(Budget_Battle& buba);
-void action_menu(Budget_Battle& buba);
+bool main_menu(Budget_Battle& buba);
+bool action_menu(Budget_Battle& buba);
 
 int main()
 {
-    cout << "\nBudget Battle CLI\n" << endl;
+    cout << "\nBudget Battle CLI" << endl;
     Budget_Battle buba;
 
-    main_menu(buba);
-    action_menu(buba);
+    while(main_menu(buba))
+    {
+        while(action_menu(buba))
+        {
+        }
+    }
 }
 
 int read_menu_input()
@@ -33,26 +37,45 @@ int read_menu_input()
     return input_value;
 }
 
-void main_menu(Budget_Battle& buba)
+bool main_menu(Budget_Battle& buba)
 {
-    cout << "Main Menu:\n[1]Create Project\n[2]Open project" << endl;
+    cout << "\nMain Menu:\n[1]Create Project\n[2]Open project\n[3]Exit" << endl;
 
     switch(read_menu_input())
     {
     case 1:
         std::system("rm project_test");
         buba.create_project("./project_test");
+        cout << "# project created" << endl;
         break;
-    case 2: break;
+    case 2: break; ;
+    case 3: return false;
     }
+
+    return true;
 }
 
-void action_menu(Budget_Battle& buba)
+bool action_menu(Budget_Battle& buba)
 {
-    cout << "Action Menu:\n[1]Import OFX" << endl;
+    cout << "\nAction Menu:\n[1]Import OFX\n[2]List operations\n[3]Back" << endl;
 
     switch(read_menu_input())
     {
-    case 1: buba.import_ofx("test/res/test1.ofx"); break;
+    case 1:
+        buba.import_ofx("test/res/test2.ofx");
+        cout << "# OFX imported" << endl;
+        break;
+    case 2:
+    {
+        auto operations = buba.get_operations_all();
+        for(auto o : operations)
+        {
+            cout << "[" << o.date << "," << o.description << "," << o.amount << "]" << endl;
+        }
+        cout << "# Done" << endl;
+        break;
     }
+    case 3: return false;
+    }
+    return true;
 }
