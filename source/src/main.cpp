@@ -57,7 +57,7 @@ bool main_menu(Budget_Battle& buba)
 
 bool action_menu(Budget_Battle& buba)
 {
-    cout << "\nAction Menu:\n[1]Import OFX\n[2]List operations\n[3]Back" << endl;
+    cout << "\nAction Menu:\n[1]Import OFX\n[2]List transactions\n[3]Back" << endl;
 
     switch(read_menu_input())
     {
@@ -67,8 +67,8 @@ bool action_menu(Budget_Battle& buba)
         break;
     case 2:
     {
-        auto operations = buba.get_operations_all();
-        for(auto o : operations)
+        auto transactions = buba.get_transactions_all();
+        for(auto o : transactions)
         {
             cout << "[" << o.date << "," << o.description << "," << o.amount << "]" << endl;
         }
