@@ -48,7 +48,10 @@ bool main_menu(Budget_Battle& buba)
         buba.create_project("./project_test");
         cout << "# project created" << endl;
         break;
-    case 2: break; ;
+    case 2:
+        buba.open_project("./project_test");
+        cout << "# project opened" << endl;
+        break;
     case 3: return false;
     }
 
