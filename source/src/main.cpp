@@ -65,7 +65,7 @@ bool action_menu(Budget_Battle& buba)
     switch(read_menu_input())
     {
     case 1:
-        buba.import_ofx("test/res/test2.ofx");
+        buba.import_ofx("test/res/test3.ofx");
         cout << "# OFX imported" << endl;
         break;
     case 2:
