@@ -73,7 +73,8 @@ bool action_menu(Budget_Battle& buba)
         auto transactions = buba.get_transactions_all();
         for(auto o : transactions)
         {
-            cout << "[" << o.date << "," << o.description << "," << o.amount << "]" << endl;
+            cout << "[" << o.fitid << "," << o.date << "," << o.description << "," << o.amount
+                 << "]" << endl;
         }
         cout << "# Done" << endl;
         break;
