@@ -124,6 +124,8 @@ void command_list(Budget_Battle& buba, const inputs_t& inputs)
 {
     (void) inputs;
 
+    cout << "+---FITID---+---Date---+-----Description-----+---Amount---+" << endl;
+
     auto transactions = buba.get_transactions_all();
     for(auto o : transactions)
     {
