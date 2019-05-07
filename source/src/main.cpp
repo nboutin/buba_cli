@@ -144,31 +144,3 @@ void command_help()
     cout << "\thelp" << endl;
     cout << "\tquit" << endl;
 }
-
-#if 0
-bool action_menu(Budget_Battle& buba)
-{
-	cout << "\nAction Menu:\n[1]Import OFX\n[2]List transactions\n[3]Back" << endl;
-
-	switch(read_menu_input())
-	{
-	case 1:
-		buba.import_ofx("test/res/test3.ofx");
-		cout << "# OFX imported" << endl;
-		break;
-	case 2:
-	{
-		auto transactions = buba.get_transactions_all();
-		for(auto o : transactions)
-		{
-			cout << "[" << o.fitid << "," << o.date << "," << o.description << "," << o.amount
-				 << "]" << endl;
-		}
-		cout << "# Done" << endl;
-		break;
-	}
-	case 3: return false;
-	}
-	return true;
-}
-#endif
