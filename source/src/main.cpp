@@ -55,23 +55,23 @@ bool main_menu(Budget_Battle& buba)
     const auto inputs  = read_menu_input();
     const auto command = inputs.at(0);
 
-    if(command == "project")
+    if(command == "project" || command == "p")
     {
         command_project(buba, inputs);
     }
-    else if(command == "import")
+    else if(command == "import" || command == "i")
     {
         command_import(buba, inputs);
     }
-    else if(command == "list")
+    else if(command == "list" || command == "l")
     {
         command_list(buba, inputs);
     }
-    else if(command == "help")
+    else if(command == "help" || command == "h")
     {
         command_help();
     }
-    else if(command == "quit")
+    else if(command == "quit" || command == "q")
     {
         return false;
     }
@@ -89,22 +89,22 @@ void command_project(Budget_Battle& buba, const inputs_t& inputs)
     const auto subcmd = inputs.at(1);
     const auto param  = (inputs.size() >= 3) ? inputs.at(2) : "./test.bubap";
 
-    if(subcmd == "new")
+    if(subcmd == "new" || subcmd == "n")
     {
-        //    	std::system("rm project_test");
+        std::system("rm test.bubap");
         if(!buba.create_project(param))
             cerr << "error: cannot create project" << endl;
         else
             cout << "ok" << endl;
     }
-    else if(subcmd == "open")
+    else if(subcmd == "open" || subcmd == "o")
     {
         if(!buba.open_project(param))
             cerr << "error: cannot open project" << endl;
         else
             cout << "ok" << endl;
     }
-    else if(subcmd == "close")
+    else if(subcmd == "close" || subcmd == "c")
     {
         cerr << "error: cannot close project" << endl;
     }
