@@ -134,15 +134,15 @@ void command_list(Budget_Battle& buba, const inputs_t& inputs)
 
 void command_help()
 {
-    cout << "Buba_cli" << endl;
-    cout << "project" << endl;
-    cout << "\tnew [pathname]" << endl;
-    cout << "\topen [pathname]" << endl;
-    cout << "\tclose" << endl;
-    cout << "import [pathname]" << endl;
-    cout << "list" << endl;
-    cout << "help" << endl;
-    cout << "quit" << endl;
+    cout << "\nBuba_cli\n" << endl;
+    cout << "\tproject" << endl;
+    cout << "\t\tnew [pathname]" << endl;
+    cout << "\t\topen [pathname]" << endl;
+    cout << "\t\tclose" << endl;
+    cout << "\timport [pathname]" << endl;
+    cout << "\tlist" << endl;
+    cout << "\thelp" << endl;
+    cout << "\tquit" << endl;
 }
 
 #if 0
