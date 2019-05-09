@@ -14,8 +14,9 @@ using inputs_t = std::vector<std::string>;
 inputs_t read_menu_input();
 bool main_menu(Budget_Battle& buba);
 void command_project(Budget_Battle& buba, const inputs_t& inputs);
-void command_list(Budget_Battle& buba, const inputs_t& inputs);
 void command_import(Budget_Battle& buba, const inputs_t& inputs);
+void command_bank(Budget_Battle& buba, const inputs_t& inputs);
+void command_list(Budget_Battle& buba, const inputs_t& inputs);
 void command_help();
 
 int main()
@@ -67,6 +68,10 @@ bool main_menu(Budget_Battle& buba)
     {
         command_import(buba, inputs);
     }
+    else if(command == "bank" || command == "b")
+    {
+        command_bank(buba, inputs);
+    }
     else if(command == "list" || command == "l")
     {
         command_list(buba, inputs);
@@ -84,7 +89,7 @@ bool main_menu(Budget_Battle& buba)
 
 void command_project(Budget_Battle& buba, const inputs_t& inputs)
 {
-    if(inputs.size() <= 1)
+    if(inputs.size() < 2)
     {
         cerr << "error: missing arguments" << endl;
         return;
@@ -122,6 +127,27 @@ void command_import(Budget_Battle& buba, const inputs_t& inputs)
         cerr << "error: cannot import ofx" << endl;
     else
         cout << "ok" << endl;
+}
+
+void command_bank(Budget_Battle& buba, const inputs_t& inputs)
+{
+    if(inputs.size() < 2)
+    {
+        cerr << "error: missing arguments" << endl;
+        return;
+    }
+
+    const auto subcmd = inputs.at(1);
+
+    if(subcmd == "list" || subcmd == "l")
+    {
+        cout << "+---id---+---name---+" << endl;
+        auto banks = buba.get_banks();
+        for(auto b : banks)
+        {
+            cout << "|" << b.id << "|" << b.name << "|" << endl;
+        }
+    }
 }
 
 void command_list(Budget_Battle& buba, const inputs_t& inputs)
