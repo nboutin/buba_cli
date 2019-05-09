@@ -156,7 +156,7 @@ void command_list(Budget_Battle& buba, const inputs_t& inputs)
 
     cout << "+---FITID---+---Date---+-----Description-----+---Amount---+" << endl;
 
-    auto transactions = buba.get_transactions_all();
+    auto transactions = buba.get_transactions();
     for(auto o : transactions)
     {
         cout << "[" << o.fitid << "," << o.date << "," << o.description << "," << o.amount << "]"
