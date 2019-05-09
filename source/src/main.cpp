@@ -16,6 +16,7 @@ bool main_menu(Budget_Battle& buba);
 void command_project(Budget_Battle& buba, const inputs_t& inputs);
 void command_import(Budget_Battle& buba, const inputs_t& inputs);
 void command_bank(Budget_Battle& buba, const inputs_t& inputs);
+void command_account(Budget_Battle& buba, const inputs_t& inputs);
 void command_transaction(Budget_Battle& buba, const inputs_t& inputs);
 void command_help();
 
@@ -71,6 +72,10 @@ bool main_menu(Budget_Battle& buba)
     else if(command == "bank" || command == "b")
     {
         command_bank(buba, inputs);
+    }
+    else if(command == "account" || command == "a")
+    {
+        command_account(buba, inputs);
     }
     else if(command == "transaction" || command == "t")
     {
@@ -173,6 +178,27 @@ void command_bank(Budget_Battle& buba, const inputs_t& inputs)
     }
 }
 
+void command_account(Budget_Battle& buba, const inputs_t& inputs)
+{
+    if(inputs.size() < 2)
+    {
+        cerr << "error: missing arguments" << endl;
+        return;
+    }
+
+    const auto cmd2 = inputs.at(1);
+
+    if(cmd2 == "list" || cmd2 == "l")
+    {
+        cout << "+---number---+---name---+---bank id ---+" << endl;
+        auto accounts = buba.get_accounts();
+        for(auto a : accounts)
+        {
+            cout << "|" << a.number << "|" << a.name << "|" << a.bank_id << "|" << endl;
+        }
+    }
+}
+
 void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
@@ -208,6 +234,8 @@ void command_help()
     cout << "    l, list" << endl;
     cout << "    s, set" << endl;
     cout << "      n, name [id, name]" << endl;
+    cout << "  a, account" << endl;
+    cout << "    l, list" << endl;
     cout << "  t, transaction" << endl;
     cout << "    l, list" << endl;
     cout << "  h, help" << endl;
