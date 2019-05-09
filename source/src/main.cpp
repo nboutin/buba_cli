@@ -175,13 +175,16 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 
 void command_help()
 {
-    cout << "\nBuba_cli\n" << endl;
-    cout << "\tproject" << endl;
-    cout << "\t\tnew [pathname]" << endl;
-    cout << "\t\topen [pathname]" << endl;
-    cout << "\t\tclose" << endl;
-    cout << "\timport [pathname]" << endl;
-    cout << "\tlist" << endl;
-    cout << "\thelp" << endl;
-    cout << "\tquit" << endl;
+    cout << "\nHelp" << endl;
+    cout << "  p, project" << endl;
+    cout << "    n, new [pathname]" << endl;
+    cout << "    o, open [pathname]" << endl;
+    cout << "    c, close" << endl;
+    cout << "  i, import [pathname]" << endl;
+    cout << "  b, bank" << endl;
+    cout << "    l, list" << endl;
+    cout << "  t, transaction" << endl;
+    cout << "    l, list" << endl;
+    cout << "  h, help" << endl;
+    cout << "  q, quit" << endl;
 }
