@@ -264,6 +264,13 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
+        cout << "+---Name---+---Category---+" << endl;
+
+        auto labels = buba.get_labels();
+        for(auto l : labels)
+        {
+            cout << "|" << l.name << "|" << l.category_name << "|" << endl;
+        }
     }
     else if(cmd2 == "add" || cmd2 == "a")
     {
