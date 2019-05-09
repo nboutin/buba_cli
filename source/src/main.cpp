@@ -52,7 +52,11 @@ inputs_t read_menu_input()
 
 bool main_menu(Budget_Battle& buba)
 {
-    const auto inputs  = read_menu_input();
+    const auto inputs = read_menu_input();
+
+    if(inputs.size() == 0)
+        return true;
+
     const auto command = inputs.at(0);
 
     if(command == "project" || command == "p")
