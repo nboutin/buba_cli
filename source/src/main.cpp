@@ -197,6 +197,29 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
             cout << "|" << a.number << "|" << a.name << "|" << a.bank_id << "|" << endl;
         }
     }
+    else if(cmd2 == "set" || cmd2 == "s")
+    {
+        if(inputs.size() < 3)
+        {
+            cerr << "error: missing arguments" << endl;
+            return;
+        }
+
+        const auto cmd3 = inputs.at(2);
+
+        if(cmd3 == "name" || cmd3 == "n")
+        {
+            if(inputs.size() < 5)
+            {
+                cerr << "error: missing arguments" << endl;
+                return;
+            }
+            const auto number = inputs.at(3);
+            const auto name   = inputs.at(4);
+
+            buba.set_account_name(number, name);
+        }
+    }
 }
 
 void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
@@ -236,6 +259,8 @@ void command_help()
     cout << "      n, name [id, name]" << endl;
     cout << "  a, account" << endl;
     cout << "    l, list" << endl;
+    cout << "    s, set" << endl;
+    cout << "      n, name [id, name]" << endl;
     cout << "  t, transaction" << endl;
     cout << "    l, list" << endl;
     cout << "  h, help" << endl;
