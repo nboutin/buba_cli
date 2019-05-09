@@ -234,13 +234,15 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 
     if(subcmd == "list" || subcmd == "l")
     {
-        cout << "+---FITID---+---Date---+-----Description-----+---Amount---+" << endl;
+        cout
+            << "+---FITID---+---Date---+-----Description-----+---Amount---+---Account---+---Label---+"
+            << endl;
 
         auto transactions = buba.get_transactions();
         for(auto o : transactions)
         {
-            cout << "[" << o.fitid << "," << o.date << "," << o.description << "," << o.amount
-                 << "]" << endl;
+            cout << "[" << o.fitid << "|" << o.date << "|" << o.description << "|" << o.amount
+                 << "|" << o.account_number << "|" << o.label << "]" << endl;
         }
     }
 }
