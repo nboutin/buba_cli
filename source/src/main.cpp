@@ -242,9 +242,9 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
         return;
     }
 
-    const auto subcmd = inputs.at(1);
+    const auto cmd2 = inputs.at(1);
 
-    if(subcmd == "list" || subcmd == "l")
+    if(cmd2 == "list" || cmd2 == "l")
     {
         cout
             << "+---FITID---+---Date---+-----Description-----+---Amount---+---Account---+---Label---+"
@@ -255,6 +255,30 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
         {
             cout << "[" << o.fitid << "|" << o.date << "|" << o.description << "|" << o.amount
                  << "|" << o.account_number << "|" << o.label << "]" << endl;
+        }
+    }
+    else if(cmd2 == "set" || cmd2 == "s")
+    {
+        if(inputs.size() < 3)
+        {
+            cerr << "error: missing arguments" << endl;
+            return;
+        }
+
+        const auto cmd3 = inputs.at(2);
+
+        if(cmd3 == "label" || cmd3 == "l")
+        {
+            if(inputs.size() < 5)
+            {
+                cerr << "error: missing arguments" << endl;
+                return;
+            }
+
+            auto fitid      = inputs.at(3);
+            auto label_name = inputs.at(4);
+
+            buba.set_transaction_label(fitid, label_name);
         }
     }
 }
@@ -317,8 +341,8 @@ void command_category(Budget_Battle& buba, const inputs_t& inputs)
 
         for(auto c : categories)
         {
-            cout << "|" << c.name << setfill(' ') << setw(max->name.size() - c.name.size()+1) << "|"
-                 << endl;
+            cout << "|" << c.name << setfill(' ') << setw(max->name.size() - c.name.size() + 1)
+                 << "|" << endl;
         }
     }
 }
@@ -341,6 +365,8 @@ void command_help()
     cout << "      n, name [id, name]" << endl;
     cout << "  t, transaction" << endl;
     cout << "    l, list" << endl;
+    cout << "    s, set" << endl;
+    cout << "      l, label [fitid, label_name]" << endl;
     cout << "  l, label" << endl;
     cout << "    l, list" << endl;
     cout << "    a, add [name]" << endl;
