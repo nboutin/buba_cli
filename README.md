@@ -2,5 +2,6 @@
 
 ## ToDo
 - [ ] Handle history command
+- [ ] Better table print
 
 
