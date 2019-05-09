@@ -137,15 +137,38 @@ void command_bank(Budget_Battle& buba, const inputs_t& inputs)
         return;
     }
 
-    const auto subcmd = inputs.at(1);
+    const auto cmd2 = inputs.at(1);
 
-    if(subcmd == "list" || subcmd == "l")
+    if(cmd2 == "list" || cmd2 == "l")
     {
         cout << "+---id---+---name---+" << endl;
         auto banks = buba.get_banks();
         for(auto b : banks)
         {
             cout << "|" << b.id << "|" << b.name << "|" << endl;
+        }
+    }
+    else if(cmd2 == "set" || cmd2 == "s")
+    {
+        if(inputs.size() < 3)
+        {
+            cerr << "error: missing arguments" << endl;
+            return;
+        }
+
+        const auto cmd3 = inputs.at(2);
+
+        if(cmd3 == "name" || cmd3 == "n")
+        {
+            if(inputs.size() < 5)
+            {
+                cerr << "error: missing arguments" << endl;
+                return;
+            }
+            const int id    = std::stoi(inputs.at(3));
+            const auto name = inputs.at(4);
+
+            buba.set_bank_name(id, name);
         }
     }
 }
@@ -183,6 +206,8 @@ void command_help()
     cout << "  i, import [pathname]" << endl;
     cout << "  b, bank" << endl;
     cout << "    l, list" << endl;
+    cout << "    s, set" << endl;
+    cout << "      n, name [id, name]" << endl;
     cout << "  t, transaction" << endl;
     cout << "    l, list" << endl;
     cout << "  h, help" << endl;
