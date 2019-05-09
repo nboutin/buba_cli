@@ -1,7 +1,9 @@
 
 #include <buba.h>
 
+#include <algorithm>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -303,12 +305,20 @@ void command_category(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        cout << "+---Name---+" << endl;
-
         auto categories = buba.get_categories();
+
+        auto max = std::max_element(
+            categories.begin(), categories.end(), [](const Category_t& a, const Category_t& b) {
+                return a.name.size() < b.name.size();
+            });
+
+        string title = "+---Name";
+        cout << title << setfill('-') << setw(max->name.size() - title.size() + 2) << "+" << endl;
+
         for(auto c : categories)
         {
-            cout << "|" << c.name << "|" << endl;
+            cout << "|" << c.name << setfill(' ') << setw(max->name.size() - c.name.size()+1) << "|"
+                 << endl;
         }
     }
 }
