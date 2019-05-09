@@ -16,7 +16,7 @@ bool main_menu(Budget_Battle& buba);
 void command_project(Budget_Battle& buba, const inputs_t& inputs);
 void command_import(Budget_Battle& buba, const inputs_t& inputs);
 void command_bank(Budget_Battle& buba, const inputs_t& inputs);
-void command_list(Budget_Battle& buba, const inputs_t& inputs);
+void command_transaction(Budget_Battle& buba, const inputs_t& inputs);
 void command_help();
 
 int main()
@@ -72,9 +72,9 @@ bool main_menu(Budget_Battle& buba)
     {
         command_bank(buba, inputs);
     }
-    else if(command == "list" || command == "l")
+    else if(command == "transaction" || command == "t")
     {
-        command_list(buba, inputs);
+        command_transaction(buba, inputs);
     }
     else if(command == "help" || command == "h")
     {
@@ -150,17 +150,26 @@ void command_bank(Budget_Battle& buba, const inputs_t& inputs)
     }
 }
 
-void command_list(Budget_Battle& buba, const inputs_t& inputs)
+void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 {
-    (void) inputs;
-
-    cout << "+---FITID---+---Date---+-----Description-----+---Amount---+" << endl;
-
-    auto transactions = buba.get_transactions();
-    for(auto o : transactions)
+    if(inputs.size() < 2)
     {
-        cout << "[" << o.fitid << "," << o.date << "," << o.description << "," << o.amount << "]"
-             << endl;
+        cerr << "error: missing arguments" << endl;
+        return;
+    }
+
+    const auto subcmd = inputs.at(1);
+
+    if(subcmd == "list" || subcmd == "l")
+    {
+        cout << "+---FITID---+---Date---+-----Description-----+---Amount---+" << endl;
+
+        auto transactions = buba.get_transactions();
+        for(auto o : transactions)
+        {
+            cout << "[" << o.fitid << "," << o.date << "," << o.description << "," << o.amount
+                 << "]" << endl;
+        }
     }
 }
 
