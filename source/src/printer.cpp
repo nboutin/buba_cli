@@ -46,7 +46,7 @@ void print_table(const std::vector<line_t> table)
         }
         cout << sep << "\n";
     }
-    cout << flush;
+    cout << "\n" << flush;
 }
 
 std::vector<line_t> transpose(const std::vector<line_t>& table)
