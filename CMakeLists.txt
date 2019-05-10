@@ -22,3 +22,7 @@ add_subdirectory(source)
 ##### Example
 
 #add_subdirectory(example)
+
+##### Proof Of Concept
+
+add_subdirectory(poc)
