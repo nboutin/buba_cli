@@ -1,4 +1,6 @@
 
+#include "printer.h"
+
 #include <buba.h>
 
 #include <algorithm>
@@ -158,12 +160,13 @@ void command_bank(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        cout << "+---id---+---name---+" << endl;
+        vector<line_t> table{{"id", "name"}};
+
         auto banks = buba.get_banks();
         for(auto b : banks)
-        {
-            cout << "|" << b.id << "|" << b.name << "|" << endl;
-        }
+            table.push_back({std::to_string(b.id), b.name});
+
+        print_table(table);
     }
     else if(cmd2 == "set" || cmd2 == "s")
     {

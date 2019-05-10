@@ -2,6 +2,7 @@
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
+	src/printer.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE inc)
