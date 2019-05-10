@@ -5,7 +5,7 @@ project(buba_cli VERSION 0.1.0 LANGUAGES CXX)
 
 set(ENV{PKG_CONFIG_PATH} "/usr/local/pkgconfig")
 
-configure_file(config/README.in ${CMAKE_SOURCE_DIR}/README.md)
+#configure_file(config/README.in ${CMAKE_SOURCE_DIR}/README.md)
 
 ##### Source
 
