@@ -44,7 +44,7 @@ void print_table(const std::vector<line_t> table)
         {
             auto value = table[line][column];
             auto width = maxs.at(column) - value.size() + 1;
-            cout << sep << value << setw(width);
+            cout << sep << " " << value << setw(width) << " ";
         }
         cout << sep << "\n";
     }
