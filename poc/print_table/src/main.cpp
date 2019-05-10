@@ -31,12 +31,13 @@ void print_table(const std::vector<line_t> table)
         maxs.push_back(max->size());
     }
 
-//    for(auto m : maxs)
-//        cout << m << ",";
-//    cout << "\n";
+    //    for(auto m : maxs)
+    //        cout << m << ",";
+    //    cout << "\n";
 
     auto sep = sep_title;
-    for(auto line : table)
+    //    for(auto line : table)
+    for(auto line = 0u; line < table.size(); ++line)
     {
         static auto title_line = true;
         if(title_line)
@@ -49,9 +50,10 @@ void print_table(const std::vector<line_t> table)
             sep = sep_value;
         }
 
-        for(auto element : line)
+//        for(auto element : line)
+        for(auto cell = 0u; cell < table[line].size(); ++cell)
         {
-            cout << sep << element;
+            cout << sep << table[line][cell] ;
         }
         cout << sep << "\n";
     }
