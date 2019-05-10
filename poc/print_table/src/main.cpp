@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -31,29 +32,19 @@ void print_table(const std::vector<line_t> table)
         maxs.push_back(max->size());
     }
 
-    //    for(auto m : maxs)
-    //        cout << m << ",";
-    //    cout << "\n";
-
     auto sep = sep_title;
-    //    for(auto line : table)
     for(auto line = 0u; line < table.size(); ++line)
     {
-        static auto title_line = true;
-        if(title_line)
-        {
-            title_line = false;
-            sep        = sep_title;
-        }
+        if(line == 0)
+            sep = sep_title;
         else
-        {
             sep = sep_value;
-        }
 
-//        for(auto element : line)
-        for(auto cell = 0u; cell < table[line].size(); ++cell)
+        for(auto column = 0u; column < table[line].size(); ++column)
         {
-            cout << sep << table[line][cell] ;
+            auto value = table[line][column];
+            auto width = maxs.at(column) - value.size() + 1;
+            cout << sep << value << setw(width);
         }
         cout << sep << "\n";
     }
