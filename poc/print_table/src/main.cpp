@@ -1,4 +1,5 @@
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,6 +22,18 @@ void print_table(const std::vector<line_t> table)
     // find max size by column
     auto table_transposed = transpose(table);
 
+    std::vector<int> maxs;
+    for(auto l : table_transposed)
+    {
+        auto max = std::max_element(l.begin(), l.end(), [](const string& a, const string& b) {
+            return a.size() < b.size();
+        });
+        maxs.push_back(max->size());
+    }
+
+//    for(auto m : maxs)
+//        cout << m << ",";
+//    cout << "\n";
 
     auto sep = sep_title;
     for(auto line : table)
@@ -63,7 +76,9 @@ int main()
 {
     using namespace std;
 
-    vector<line_t> table{{"Title1", "Title2"}, {"value11", "value12"}, {"value21", "value22"}};
+    vector<line_t> table{{"Title", "TitleLong11", "T"},
+                         {"valueLongLong15", "value", "ccc4"},
+                         {"val", "value22", "cc"}};
 
     print_table(table);
 
