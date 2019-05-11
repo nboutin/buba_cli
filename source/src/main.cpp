@@ -250,24 +250,16 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        //        cout
-        //            <<
-        //            "+---FITID---+---Date---+-----Description-----+---Amount---+---Account---+---Label---+"
-        //            << endl;
-        //
-        //        auto transactions = buba.get_transactions();
-        //        for(auto o : transactions)
-        //        {
-        //            cout << "[" << o.fitid << "|" << o.date << "|" << o.description << "|" <<
-        //            o.amount
-        //                 << "|" << o.account_number << "|" << o.label << "]" << endl;
-        //        }
         vector<line_t> table{{"FITID", "Date", "Description", "Amount", "Account", "Label"}};
 
         auto transactions = buba.get_transactions();
         for(auto t : transactions)
-            table.push_back(
-                {t.fitid, t.date, t.description, std::to_string(t.amount), t.account_number, t.label});
+            table.push_back({t.fitid,
+                             t.date,
+                             t.description,
+                             std::to_string(t.amount),
+                             t.account_number,
+                             t.label});
 
         print_table(table);
     }
@@ -309,13 +301,13 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        cout << "+---Name---+---Category---+" << endl;
+        std::vector<line_t> table{{"Name", "Category"}};
 
         auto labels = buba.get_labels();
         for(auto l : labels)
-        {
-            cout << "|" << l.name << "|" << l.category_name << "|" << endl;
-        }
+            table.push_back({l.name, l.category_name});
+
+        print_table(table);
     }
     else if(cmd2 == "add" || cmd2 == "a")
     {
@@ -343,21 +335,13 @@ void command_category(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
+        std::vector<line_t> table{{"Name"}};
         auto categories = buba.get_categories();
 
-        auto max = std::max_element(
-            categories.begin(), categories.end(), [](const Category_t& a, const Category_t& b) {
-                return a.name.size() < b.name.size();
-            });
-
-        string title = "+---Name";
-        cout << title << setfill('-') << setw(max->name.size() - title.size() + 2) << "+" << endl;
-
         for(auto c : categories)
-        {
-            cout << "|" << c.name << setfill(' ') << setw(max->name.size() - c.name.size() + 1)
-                 << "|" << endl;
-        }
+            table.push_back({c.name});
+
+        print_table(table);
     }
 }
 

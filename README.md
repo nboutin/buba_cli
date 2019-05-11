@@ -2,5 +2,5 @@
 
 ## ToDo
 - [ ] Handle history command
-- [ ] Better table print
 - [ ] Add interactive set transaction label
+- [x] Better table print
