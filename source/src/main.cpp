@@ -205,12 +205,6 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        //        cout << "+---number---+---name---+---bank id ---+" << endl;
-        //        auto accounts = buba.get_accounts();
-        //        for(auto a : accounts)
-        //        {
-        //            cout << "|" << a.number << "|" << a.name << "|" << a.bank_id << "|" << endl;
-        //        }
         vector<line_t> table{{"Number", "Name", "Bank Id"}};
 
         auto accounts = buba.get_accounts();
@@ -256,16 +250,26 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        cout
-            << "+---FITID---+---Date---+-----Description-----+---Amount---+---Account---+---Label---+"
-            << endl;
+        //        cout
+        //            <<
+        //            "+---FITID---+---Date---+-----Description-----+---Amount---+---Account---+---Label---+"
+        //            << endl;
+        //
+        //        auto transactions = buba.get_transactions();
+        //        for(auto o : transactions)
+        //        {
+        //            cout << "[" << o.fitid << "|" << o.date << "|" << o.description << "|" <<
+        //            o.amount
+        //                 << "|" << o.account_number << "|" << o.label << "]" << endl;
+        //        }
+        vector<line_t> table{{"FITID", "Date", "Description", "Amount", "Account", "Label"}};
 
         auto transactions = buba.get_transactions();
-        for(auto o : transactions)
-        {
-            cout << "[" << o.fitid << "|" << o.date << "|" << o.description << "|" << o.amount
-                 << "|" << o.account_number << "|" << o.label << "]" << endl;
-        }
+        for(auto t : transactions)
+            table.push_back(
+                {t.fitid, t.date, t.description, std::to_string(t.amount), t.account_number, t.label});
+
+        print_table(table);
     }
     else if(cmd2 == "set" || cmd2 == "s")
     {
