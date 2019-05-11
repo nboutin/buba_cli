@@ -7,3 +7,6 @@
 ### 0.1.0 [In Progress]
 - [ ] Add interactive set transaction label
 - [x] Better table print
+
+#### Dev
+- [ ] Add generic command menu
