@@ -320,6 +320,30 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs)
 
         buba.add_label(name);
     }
+    else if(cmd2 == "set" || cmd2 == "s")
+    {
+        if(inputs.size() < 3)
+        {
+            cerr << "error: missing arguments" << endl;
+            return;
+        }
+
+        const auto cmd3 = inputs.at(2);
+
+        if(cmd3 == "category" || cmd3 == "c")
+        {
+            if(inputs.size() < 5)
+            {
+                cerr << "error: missing arguments" << endl;
+                return;
+            }
+
+            auto label    = inputs.at(3);
+            auto category = inputs.at(4);
+
+            buba.set_label_category(label, category);
+        }
+    }
 }
 
 void command_category(Budget_Battle& buba, const inputs_t& inputs)
@@ -366,7 +390,9 @@ void command_help()
     cout << "            label (l) <fitid> <label_name>" << endl;
     cout << "    label (l)" << endl;
     cout << "        list (l)" << endl;
-    cout << "        add (a) <name>" << endl;
+    cout << "        add  (a) <name>" << endl;
+    cout << "        set  (s)" << endl;
+    cout << "            category (c) <label_name> <category_name>" << endl;
     cout << "    category (c)" << endl;
     cout << "        list (l)" << endl;
     cout << "    help (h)" << endl;
