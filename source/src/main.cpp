@@ -120,21 +120,21 @@ void command_project(Budget_Battle& buba, const inputs_t& inputs)
     if(subcmd == "new" || subcmd == "n")
     {
         std::system("rm test.bubap");
-        if(!buba.create_project(param))
+        if(!buba.project_create(param))
             cerr << "error: cannot create project" << endl;
         else
             cout << "ok" << endl;
     }
     else if(subcmd == "open" || subcmd == "o")
     {
-        if(!buba.open_project(param))
+        if(!buba.project_open(param))
             cerr << "error: cannot open project" << endl;
         else
             cout << "ok" << endl;
     }
     else if(subcmd == "close" || subcmd == "c")
     {
-        cerr << "error: cannot close project" << endl;
+        buba.project_close();
     }
 }
 
