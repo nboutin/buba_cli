@@ -115,13 +115,17 @@ void command_project(Budget_Battle& buba, const inputs_t& inputs)
     }
 
     const auto subcmd = inputs.at(1);
-    const auto param  = (inputs.size() >= 3) ? inputs.at(2) : "./test.bubap";
+
+    const auto project_test = "./test.bubap";
+    const auto param        = (inputs.size() >= 3) ? inputs.at(2) : project_test;
 
     if(subcmd == "new" || subcmd == "n")
     {
-        std::system("rm test.bubap");
+        if(param == project_test)
+            std::system(std::string("rm "s + project_test).c_str());
+
         if(!buba.project_create(param))
-            cerr << "error: cannot create project" << endl;
+            cerr << "error: cannot create project: " << param << endl;
         else
             cout << "ok" << endl;
     }
@@ -140,7 +144,8 @@ void command_project(Budget_Battle& buba, const inputs_t& inputs)
 
 void command_import(Budget_Battle& buba, const inputs_t& inputs)
 {
-    const auto param = (inputs.size() >= 2) ? inputs.at(2) : "test/res/test3.ofx";
+    const auto import_test = "test/res/test3.ofx";
+    const auto param       = (inputs.size() < 2) ? import_test : inputs.at(1);
 
     if(!buba.import_ofx(param))
         cerr << "error: cannot import ofx" << endl;
@@ -205,11 +210,16 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        vector<line_t> table{{"Number", "Name", "Bank Id"}};
+        vector<line_t> table{{"Number", "Name", "Balance", "Bank Id"}};
 
         auto accounts = buba.get_accounts();
         for(auto a : accounts)
-            table.push_back({a.number, a.name, std::to_string(a.bank_id)});
+        {
+            char balance[64];
+            std::sprintf(balance, "%.2f", a.balance);
+
+            table.push_back({a.number, a.name, balance, std::to_string(a.bank_id)});
+        }
 
         print_table(table);
     }
