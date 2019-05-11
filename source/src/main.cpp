@@ -254,13 +254,12 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 
         auto transactions = buba.get_transactions();
         for(auto t : transactions)
-            table.push_back({t.fitid,
-                             t.date,
-                             t.description,
-                             std::to_string(t.amount),
-                             t.account_number,
-                             t.label});
+        {
+            char amount[64];
+            std::sprintf(amount, "%.2f", t.amount);
 
+            table.push_back({t.fitid, t.date, t.description, amount, t.account_number, t.label});
+        }
         print_table(table);
     }
     else if(cmd2 == "set" || cmd2 == "s")
