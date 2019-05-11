@@ -205,12 +205,19 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
 
     if(cmd2 == "list" || cmd2 == "l")
     {
-        cout << "+---number---+---name---+---bank id ---+" << endl;
+        //        cout << "+---number---+---name---+---bank id ---+" << endl;
+        //        auto accounts = buba.get_accounts();
+        //        for(auto a : accounts)
+        //        {
+        //            cout << "|" << a.number << "|" << a.name << "|" << a.bank_id << "|" << endl;
+        //        }
+        vector<line_t> table{{"Number", "Name", "Bank Id"}};
+
         auto accounts = buba.get_accounts();
         for(auto a : accounts)
-        {
-            cout << "|" << a.number << "|" << a.name << "|" << a.bank_id << "|" << endl;
-        }
+            table.push_back({a.number, a.name, std::to_string(a.bank_id)});
+
+        print_table(table);
     }
     else if(cmd2 == "set" || cmd2 == "s")
     {
