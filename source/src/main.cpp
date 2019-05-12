@@ -1,5 +1,7 @@
 
 #include "printer.h"
+#include "read_input.h"
+#include "transaction.h"
 
 #include <buba.h>
 
@@ -13,9 +15,6 @@
 using namespace buba;
 using namespace std;
 
-using inputs_t = std::vector<std::string>;
-
-inputs_t read_menu_input();
 bool main_menu(Budget_Battle& buba);
 void command_project(Budget_Battle& buba, const inputs_t& inputs);
 void command_import(Budget_Battle& buba, const inputs_t& inputs);
@@ -35,32 +34,9 @@ int main()
     }
 }
 
-inputs_t read_menu_input()
-{
-    cout << "buba_cli>" << flush;
-
-    string input;
-    inputs_t inputs;
-
-    getline(std::cin, input);
-
-    if(!input.empty())
-    {
-        const char* delim = " ";
-        char* token       = std::strtok(&input[0], delim);
-        while(token != nullptr)
-        {
-            inputs.push_back(token);
-            token = std::strtok(nullptr, delim);
-        }
-    }
-
-    return inputs;
-}
-
 bool main_menu(Budget_Battle& buba)
 {
-    const auto inputs = read_menu_input();
+    const auto inputs = read_input("buba_cli");
 
     if(inputs.size() == 0)
         return true;
@@ -281,20 +257,41 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
         }
 
         const auto cmd3 = inputs.at(2);
-
         if(cmd3 == "label" || cmd3 == "l")
         {
-            if(inputs.size() < 5)
+            if(inputs.size() < 4)
             {
                 cerr << "error: missing arguments" << endl;
                 return;
             }
 
-            auto fitid      = inputs.at(3);
-            auto label_name = inputs.at(4);
+            const auto cmd4 = inputs.at(3);
+            if(cmd4 == "interactive" || cmd4 == "i")
+            {
+                set_transaction_label_interactive(buba);
+            }
+            else
+            {
+                if(inputs.size() < 5)
+                {
+                    cerr << "error: missing arguments" << endl;
+                    return;
+                }
 
-            buba.set_transaction_label(fitid, label_name);
+                auto fitid      = inputs.at(3);
+                auto label_name = inputs.at(4);
+
+                buba.set_transaction_label(fitid, label_name);
+            }
         }
+        else
+        {
+            cout << "error: what is " << cmd3 << endl;
+        }
+    }
+    else
+    {
+        cout << "error: what is " << cmd2 << endl;
     }
 }
 
