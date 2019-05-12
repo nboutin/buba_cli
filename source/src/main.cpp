@@ -26,11 +26,33 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs);
 void command_category(Budget_Battle& buba, const inputs_t& inputs);
 void command_help();
 
+using param_t = std::vector<std::string>;
+
+struct command_t
+{
+    std::vector<std::string> cmds;
+    int n_params;
+    void (*cmd_cb)(Budget_Battle&, const param_t& params);
+};
+
+void project_create(Budget_Battle& buba, const param_t& params);
+
+const std::vector<command_t> commands = {{{"project", "create"}, 1, &project_create}};
+
+void project_create(Budget_Battle& buba, const param_t& params)
+{
+    (void) buba;
+    (void) params;
+}
+
+bool process_command();
+
 int main()
 {
     Budget_Battle buba;
 
-    while(main_menu(buba))
+    //    while(main_menu(buba))
+    while(process_command())
     {
     }
 }
@@ -56,6 +78,20 @@ inputs_t read_menu_input()
     }
 
     return inputs;
+}
+
+bool process_command()
+{
+    const auto inputs = read_menu_input();
+
+    if(inputs.size() == 0)
+        return true;
+
+    const auto& cmd = inputs.at(0);
+
+    std::find_if(commands.begin(), commands.end(), [&cmd](const command_t& c) {
+        std::find(c.cmds.begin(), c.cmds.end(), cmd);
+    });
 }
 
 bool main_menu(Budget_Battle& buba)
