@@ -400,6 +400,7 @@ void command_help()
     cout << "        add  (a) <name>" << endl;
     cout << "        set  (s)" << endl;
     cout << "            category (c) <label_name> <category_name>" << endl;
+    cout << "            interactive (i)" << endl;
     cout << "    category (c)" << endl;
     cout << "        list (l)" << endl;
     cout << "    help (h)" << endl;

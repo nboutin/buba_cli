@@ -41,7 +41,9 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
 
             const auto label_name = inputs.at(1);
 
-            buba.set_transaction_label(t.fitid, label_name);
+            if(!buba.set_transaction_label(t.fitid, label_name))
+                cerr << "Error: cannot set transaction label:" << t.fitid << "," << label_name
+                     << endl;
         }
         else if(cmd == "pass" || cmd == "p")
         {
