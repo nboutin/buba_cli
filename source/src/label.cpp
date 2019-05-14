@@ -2,6 +2,10 @@
 #include "label.h"
 #include "read_input.h"
 
+#include <iostream>
+
+using namespace std;
+
 void add_label_interactive(buba::Budget_Battle& buba, const std::string& label_name)
 {
     while(1)
@@ -16,7 +20,10 @@ void add_label_interactive(buba::Budget_Battle& buba, const std::string& label_n
         if(cmd == "y")
         {
             if(!buba.add_label(label_name))
+            {
+                cerr << "Error: cannot add label " << label_name << endl;
                 continue;
+            }
             else
                 return;
         }

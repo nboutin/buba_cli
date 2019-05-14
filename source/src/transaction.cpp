@@ -52,7 +52,10 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
             {
                 cerr << "Error: cannot set transaction label:" << t.fitid << "," << label_name
                      << endl;
+
                 add_label_interactive(buba, label_name);
+                --i;
+                continue;
             }
         }
         else if(cmd == "pass" || cmd == "p")
