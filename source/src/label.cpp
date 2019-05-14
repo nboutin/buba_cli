@@ -1,5 +1,6 @@
 
 #include "label.h"
+#include "printer.h"
 #include "read_input.h"
 
 #include <iostream>
@@ -21,15 +22,24 @@ void add_label_interactive(buba::Budget_Battle& buba, const std::string& label_n
         {
             if(!buba.add_label(label_name))
             {
-                cerr << "Error: cannot add label " << label_name << endl;
+                cerr << red << "[Error] cannot add label " << label_name << reset << endl;
                 continue;
             }
             else
+            {
+                cout << green << "[OK] label added" << reset << endl;
                 return;
+            }
         }
         else if(cmd == "n")
+        {
+            cout << green << "[OK] label not added" << reset << endl;
             return;
+        }
         else
+        {
+            cerr << red << "[Error] unknown command" << reset << endl;
             continue;
+        }
     }
 }

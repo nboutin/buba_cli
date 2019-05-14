@@ -1,14 +1,15 @@
 
 #include "read_input.h"
+#include "printer.h"
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 using namespace std;
 
 inputs_t read_input(const std::string& tag)
 {
-    cout << tag << ">" << flush;
+    cout << cyan << tag << ">" << reset << flush;
 
     string input;
     inputs_t inputs;

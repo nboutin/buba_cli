@@ -31,6 +31,7 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
 
         if(inputs.size() < 1)
         {
+            cerr << red << "[Error] missing command" << reset << endl;
             i--;
             continue;
         }
@@ -41,7 +42,7 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
         {
             if(inputs.size() < 2)
             {
-                cout << "error: missing label name" << endl;
+                cerr << red << "[Error] missing label name" << reset << endl;
                 i--;
                 continue;
             }
@@ -50,24 +51,31 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
 
             if(!buba.set_transaction_label(t.fitid, label_name))
             {
-                cerr << "Error: cannot set transaction label:" << t.fitid << "," << label_name
-                     << endl;
+                cerr << red << "[Error] cannot set transaction label:" << t.fitid << ","
+                     << label_name << reset << endl;
 
                 add_label_interactive(buba, label_name);
                 --i;
                 continue;
             }
+            else
+            {
+                cout << green << "[OK] label set" << reset << endl;
+            }
         }
         else if(cmd == "pass" || cmd == "p")
         {
+            cout << green << "[OK] pass" << reset << endl;
             continue;
         }
         else if(cmd == "quit" || cmd == "q")
         {
+            cout << green << "[OK] quit" << reset << endl;
             return;
         }
         else
         {
+            cerr << red << "[Error] unknown command" << reset << endl;
             --i;
             continue;
         }
