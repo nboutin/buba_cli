@@ -4,14 +4,58 @@
 #include "printer.h"
 #include "read_input.h"
 
+#include <buba.h>
+
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-void set_transaction_label_interactive(buba::Budget_Battle& buba)
+bool transaction_list(buba::Budget_Battle& buba, const param_t& params)
 {
+    (void) params;
+
+    vector<line_t> table{{"FITID", "Date", "Description", "Amount", "Account", "Label"}};
+
+    auto transactions = buba.get_transactions();
+    for(auto t : transactions)
+    {
+        char amount[64];
+        std::sprintf(amount, "%.2f", t.amount);
+
+        table.push_back({t.fitid, t.date, t.description, amount, t.account_number, t.label});
+    }
+    print_table(table);
+
+    return true;
+}
+
+bool transaction_set_label(buba::Budget_Battle& buba, const param_t& params)
+{
+    auto fitid      = params.at(0);
+    auto label_name = params.at(1);
+
+    if(!buba.set_transaction_label(fitid, label_name))
+        cerr << red << "[Error] cannot set transaction label:" << fitid << "," << label_name
+             << reset << endl;
+    else
+        cout << green << "[OK] transaction label set:" << fitid << "," << label_name << reset
+             << endl;
+
+    return true;
+}
+
+bool transaction_set_label_interactive(buba::Budget_Battle& buba, const param_t& params)
+{
+    (void) params;
+
     auto transactions = buba.get_transactions_without_label();
+
+    if(transactions.size() == 0)
+    {
+        cout << green << "[OK] transaction list is empty" << reset << endl;
+        return true;
+    }
 
     for(auto i = 0u; i < transactions.size(); ++i)
     {
@@ -54,7 +98,7 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
                 cerr << red << "[Error] cannot set transaction label:" << t.fitid << ","
                      << label_name << reset << endl;
 
-                add_label_interactive(buba, label_name);
+                label_add_interactive(buba, {label_name});
                 --i;
                 continue;
             }
@@ -71,7 +115,7 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
         else if(cmd == "quit" || cmd == "q")
         {
             cout << green << "[OK] quit" << reset << endl;
-            return;
+            return true;
         }
         else
         {
@@ -80,4 +124,5 @@ void set_transaction_label_interactive(buba::Budget_Battle& buba)
             continue;
         }
     }
+    return true;
 }

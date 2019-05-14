@@ -2,10 +2,16 @@
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
+	src/read_input.cpp
+	src/printer.cpp
+	src/command.cpp
+	src/project.cpp
+	src/import.cpp
+	src/bank.cpp
+	src/account.cpp
 	src/transaction.cpp
 	src/label.cpp
-	src/printer.cpp
-	src/read_input.cpp
+	src/category.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE inc)

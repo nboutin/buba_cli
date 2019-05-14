@@ -1,8 +1,14 @@
 
 #pragma once
 
-#include <buba.h>
+#include "command.h"
 
-#include <string>
+namespace buba
+{
+class Budget_Battle;
+}
 
-void add_label_interactive(buba::Budget_Battle& buba, const std::string& label_name);
+bool label_list(buba::Budget_Battle& buba, const param_t& params);
+bool label_add(buba::Budget_Battle& buba, const param_t& params);
+bool label_add_interactive(buba::Budget_Battle& buba, const param_t& params);
+bool label_set_category(buba::Budget_Battle& buba, const param_t& params);
