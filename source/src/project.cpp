@@ -8,10 +8,10 @@
 
 using namespace std;
 
-bool project_create(buba::Budget_Battle& buba, const param_t& params)
+bool project_new(buba::Budget_Battle& buba, const param_t& params)
 {
-    const auto project_test = "./test.bubap";
-    const auto param        = (params.at(0) == "test") ? project_test : params.at(0);
+    const auto param        = params.at(0);
+    const auto project_test = "test";
 
     if(param == project_test)
         std::system(std::string("rm "s + project_test).c_str());

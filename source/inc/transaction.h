@@ -1,6 +1,13 @@
 
 #pragma once
 
-#include <buba.h>
+#include "command.h"
 
-void set_transaction_label_interactive(buba::Budget_Battle& buba);
+namespace buba
+{
+class Budget_Battle;
+}
+
+bool transaction_list(buba::Budget_Battle& buba, const param_t& params);
+bool transaction_set_label(buba::Budget_Battle& buba, const param_t& params);
+bool transaction_set_label_interactive(buba::Budget_Battle& buba, const param_t& params);

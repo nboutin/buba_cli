@@ -14,7 +14,8 @@ using param_t = std::vector<std::string>;
 struct command_t
 {
     std::vector<std::string> cmds;
-    int n_params;
+    std::vector<std::string> cmds_short;
+    std::uint32_t n_params;
     bool (*cmd_cb)(buba::Budget_Battle&, const param_t& params);
 };
 
