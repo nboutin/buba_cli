@@ -56,7 +56,6 @@ int main()
     }
 }
 
-
 bool process_command()
 {
     const auto inputs = read_input("buba_cli");
@@ -64,11 +63,24 @@ bool process_command()
     if(inputs.size() == 0)
         return true;
 
-    const auto& cmd = inputs.at(0);
+    //    const & cmd = inputs.at(0);
 
-    std::find_if(commands.begin(), commands.end(), [&cmd](const command_t& c) {
-        std::find(c.cmds.begin(), c.cmds.end(), cmd);
+    auto r = std::find_if(commands.begin(), commands.end(), [&inputs](const command_t& c) {
+        if(inputs.size() < c.cmds.size())
+            return false;
+
+        return std::equal(c.cmds.begin(), c.cmds.end(), inputs.begin());
     });
+
+    if(r != std::end(commands))
+    {
+        cout << "command found" << endl;
+    }
+    else
+    {
+        cout << "command not found" << endl;
+    }
+    return true;
 }
 bool main_menu(Budget_Battle& buba)
 {
