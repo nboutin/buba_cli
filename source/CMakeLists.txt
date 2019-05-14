@@ -2,8 +2,9 @@
 
 add_executable(${PROJECT_NAME}
 	src/main.cpp
-	src/printer.cpp
 	src/transaction.cpp
+	src/label.cpp
+	src/printer.cpp
 	src/read_input.cpp
 )
 
