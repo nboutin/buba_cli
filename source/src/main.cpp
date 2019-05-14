@@ -1,5 +1,7 @@
 
 #include "printer.h"
+#include "read_input.h"
+#include "transaction.h"
 
 #include <buba.h>
 
@@ -13,9 +15,6 @@
 using namespace buba;
 using namespace std;
 
-using inputs_t = std::vector<std::string>;
-
-inputs_t read_menu_input();
 bool main_menu(Budget_Battle& buba);
 void command_project(Budget_Battle& buba, const inputs_t& inputs);
 void command_import(Budget_Battle& buba, const inputs_t& inputs);
@@ -57,32 +56,10 @@ int main()
     }
 }
 
-inputs_t read_menu_input()
-{
-    cout << "buba_cli>" << flush;
-
-    string input;
-    inputs_t inputs;
-
-    getline(std::cin, input);
-
-    if(!input.empty())
-    {
-        const char* delim = " ";
-        char* token       = std::strtok(&input[0], delim);
-        while(token != nullptr)
-        {
-            inputs.push_back(token);
-            token = std::strtok(nullptr, delim);
-        }
-    }
-
-    return inputs;
-}
 
 bool process_command()
 {
-    const auto inputs = read_menu_input();
+    const auto inputs = read_input("buba_cli");
 
     if(inputs.size() == 0)
         return true;
@@ -93,10 +70,9 @@ bool process_command()
         std::find(c.cmds.begin(), c.cmds.end(), cmd);
     });
 }
-
 bool main_menu(Budget_Battle& buba)
 {
-    const auto inputs = read_menu_input();
+    const auto inputs = read_input("buba_cli");
 
     if(inputs.size() == 0)
         return true;
@@ -146,7 +122,7 @@ void command_project(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
     {
-        cerr << "error: missing arguments" << endl;
+        cerr << red << "[Error] missing arguments" << reset << endl;
         return;
     }
 
@@ -161,20 +137,25 @@ void command_project(Budget_Battle& buba, const inputs_t& inputs)
             std::system(std::string("rm "s + project_test).c_str());
 
         if(!buba.project_create(param))
-            cerr << "error: cannot create project: " << param << endl;
+            cerr << red << "[Error] cannot create project:" << param << reset << endl;
         else
-            cout << "ok" << endl;
+            cout << green << "[OK] project created" << reset << endl;
     }
     else if(subcmd == "open" || subcmd == "o")
     {
         if(!buba.project_open(param))
-            cerr << "error: cannot open project" << endl;
+            cerr << red << "[Error] cannot open project:" << param << reset << endl;
         else
-            cout << "ok" << endl;
+            cout << green << "[OK] project opened:" << param << reset << endl;
     }
     else if(subcmd == "close" || subcmd == "c")
     {
         buba.project_close();
+        cout << green << "[OK] project closed" << reset << endl;
+    }
+    else
+    {
+        cerr << red << "[Error] unknown command" << reset << endl;
     }
 }
 
@@ -184,16 +165,16 @@ void command_import(Budget_Battle& buba, const inputs_t& inputs)
     const auto param       = (inputs.size() < 2) ? import_test : inputs.at(1);
 
     if(!buba.import_ofx(param))
-        cerr << "error: cannot import ofx" << endl;
+        cerr << red << "[Error] cannot import OFX file:" << param << reset << endl;
     else
-        cout << "ok" << endl;
+        cout << green << "[OK] OFX file imported:" << param << reset << endl;
 }
 
 void command_bank(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
     {
-        cerr << "error: missing arguments" << endl;
+        cerr << red << "[Error] missing arguments" << reset << endl;
         return;
     }
 
@@ -213,7 +194,7 @@ void command_bank(Budget_Battle& buba, const inputs_t& inputs)
     {
         if(inputs.size() < 3)
         {
-            cerr << "error: missing arguments" << endl;
+            cerr << red << "[Error] missing arguments" << reset << endl;
             return;
         }
 
@@ -223,14 +204,22 @@ void command_bank(Budget_Battle& buba, const inputs_t& inputs)
         {
             if(inputs.size() < 5)
             {
-                cerr << "error: missing arguments" << endl;
+                cerr << red << "[Error] missing arguments" << reset << endl;
                 return;
             }
             const int id    = std::stoi(inputs.at(3));
             const auto name = inputs.at(4);
 
-            buba.set_bank_name(id, name);
+            if(!buba.set_bank_name(id, name))
+                cerr << red << "[Error] cannot set bank name:" << id << "," << name << reset
+                     << endl;
+            else
+                cout << green << "[OK] bank name set:" << id << "," << name << reset << endl;
         }
+    }
+    else
+    {
+        cerr << red << "[Error] unknown command" << reset << endl;
     }
 }
 
@@ -238,7 +227,7 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
     {
-        cerr << "error: missing arguments" << endl;
+        cerr << red << "[Error] missing arguments" << reset << endl;
         return;
     }
 
@@ -263,7 +252,7 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
     {
         if(inputs.size() < 3)
         {
-            cerr << "error: missing arguments" << endl;
+            cerr << red << "[Error] missing arguments" << reset << endl;
             return;
         }
 
@@ -273,14 +262,26 @@ void command_account(Budget_Battle& buba, const inputs_t& inputs)
         {
             if(inputs.size() < 5)
             {
-                cerr << "error: missing arguments" << endl;
+                cerr << red << "[Error] missing arguments" << reset << endl;
                 return;
             }
             const auto number = inputs.at(3);
             const auto name   = inputs.at(4);
 
-            buba.set_account_name(number, name);
+            if(!buba.set_account_name(number, name))
+                cerr << red << "[Error] cannot set account name:" << number << "," << name << reset
+                     << endl;
+            else
+                cout << green << "[OK] account name set:" << number << "," << name << reset << endl;
         }
+        else
+        {
+            cerr << red << "[Error] unknown command" << reset << endl;
+        }
+    }
+    else
+    {
+        cerr << red << "[Error] unknown command" << reset << endl;
     }
 }
 
@@ -288,7 +289,7 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
     {
-        cerr << "error: missing arguments" << endl;
+        cerr << red << "[Error] missing arguments" << reset << endl;
         return;
     }
 
@@ -312,25 +313,51 @@ void command_transaction(Budget_Battle& buba, const inputs_t& inputs)
     {
         if(inputs.size() < 3)
         {
-            cerr << "error: missing arguments" << endl;
+            cerr << red << "[Error] missing arguments" << reset << endl;
             return;
         }
 
         const auto cmd3 = inputs.at(2);
-
         if(cmd3 == "label" || cmd3 == "l")
         {
-            if(inputs.size() < 5)
+            if(inputs.size() < 4)
             {
-                cerr << "error: missing arguments" << endl;
+                cerr << red << "[Error] missing arguments" << reset << endl;
                 return;
             }
 
-            auto fitid      = inputs.at(3);
-            auto label_name = inputs.at(4);
+            const auto cmd4 = inputs.at(3);
+            if(cmd4 == "interactive" || cmd4 == "i")
+            {
+                set_transaction_label_interactive(buba);
+            }
+            else
+            {
+                if(inputs.size() < 5)
+                {
+                    cerr << red << "[Error] missing arguments" << reset << endl;
+                    return;
+                }
 
-            buba.set_transaction_label(fitid, label_name);
+                auto fitid      = inputs.at(3);
+                auto label_name = inputs.at(4);
+
+                if(!buba.set_transaction_label(fitid, label_name))
+                    cerr << red << "[Error] cannot set transaction label:" << fitid << ","
+                         << label_name << reset << endl;
+                else
+                    cout << green << "[OK] transaction label set:" << fitid << "," << label_name
+                         << reset << endl;
+            }
         }
+        else
+        {
+            cerr << red << "[Error] unknown command" << reset << endl;
+        }
+    }
+    else
+    {
+        cerr << red << "[Error] unknown command" << reset << endl;
     }
 }
 
@@ -338,7 +365,7 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
     {
-        cerr << "error: missing arguments" << endl;
+        cerr << red << "[Error] missing arguments" << reset << endl;
         return;
     }
 
@@ -358,19 +385,22 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs)
     {
         if(inputs.size() < 3)
         {
-            cerr << "error: missing arguments" << endl;
+            cerr << red << "[Error] missing arguments" << reset << endl;
             return;
         }
 
         const auto name = inputs.at(2);
 
-        buba.add_label(name);
+        if(!buba.add_label(name))
+            cerr << red << "[Error] cannot add label:" << name << reset << endl;
+        else
+            cout << green << "[OK] label added:" << name << reset << endl;
     }
     else if(cmd2 == "set" || cmd2 == "s")
     {
         if(inputs.size() < 3)
         {
-            cerr << "error: missing arguments" << endl;
+            cerr << red << "[Error] missing arguments" << reset << endl;
             return;
         }
 
@@ -380,15 +410,28 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs)
         {
             if(inputs.size() < 5)
             {
-                cerr << "error: missing arguments" << endl;
+                cerr << red << "[Error] missing arguments" << reset << endl;
                 return;
             }
 
             auto label    = inputs.at(3);
             auto category = inputs.at(4);
 
-            buba.set_label_category(label, category);
+            if(!buba.set_label_category(label, category))
+                cerr << red << "[Error] cannot set label category:" << label << "," << category
+                     << reset << endl;
+            else
+                cout << green << "[OK] label category set:" << label << "," << category << reset
+                     << endl;
         }
+        else
+        {
+            cerr << red << "[Error] unknown command" << reset << endl;
+        }
+    }
+    else
+    {
+        cerr << red << "[Error] unknown command" << reset << endl;
     }
 }
 
@@ -396,7 +439,7 @@ void command_category(Budget_Battle& buba, const inputs_t& inputs)
 {
     if(inputs.size() < 2)
     {
-        cerr << "error: missing arguments" << endl;
+        cerr << red << "[Error] missing arguments" << reset << endl;
         return;
     }
 
@@ -411,6 +454,10 @@ void command_category(Budget_Battle& buba, const inputs_t& inputs)
             table.push_back({c.name});
 
         print_table(table);
+    }
+    else
+    {
+        cerr << red << "[Error] unknown command" << reset << endl;
     }
 }
 
@@ -439,6 +486,7 @@ void command_help()
     cout << "        add  (a) <name>" << endl;
     cout << "        set  (s)" << endl;
     cout << "            category (c) <label_name> <category_name>" << endl;
+    cout << "            interactive (i)" << endl;
     cout << "    category (c)" << endl;
     cout << "        list (l)" << endl;
     cout << "    help (h)" << endl;
