@@ -1,5 +1,6 @@
 
 #include "command.h"
+#include "printer.h"
 #include "read_input.h"
 
 #include <algorithm>
@@ -27,11 +28,11 @@ bool process_command(const std::vector<command_t>& commands, Budget_Battle& buba
     {
         param_t param(inputs.begin() + r->cmds.size(), inputs.end());
 
-        r->cmd_cb(buba, param);
+        return r->cmd_cb(buba, param);
     }
     else
     {
-        cout << "command not found" << endl;
+        cerr << red << "[Error] unknown command" << reset << endl;
+        return true;
     }
-    return true;
 }

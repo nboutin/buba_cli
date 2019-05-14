@@ -18,19 +18,23 @@ using namespace buba;
 using namespace std;
 
 bool main_menu(Budget_Battle& buba);
-void command_project(Budget_Battle& buba, const inputs_t& inputs);
+
 void command_import(Budget_Battle& buba, const inputs_t& inputs);
 void command_bank(Budget_Battle& buba, const inputs_t& inputs);
 void command_account(Budget_Battle& buba, const inputs_t& inputs);
 void command_transaction(Budget_Battle& buba, const inputs_t& inputs);
 void command_label(Budget_Battle& buba, const inputs_t& inputs);
 void command_category(Budget_Battle& buba, const inputs_t& inputs);
-void command_help();
+
+bool command_help(buba::Budget_Battle&, const param_t& params);
+bool command_quit(buba::Budget_Battle&, const param_t& params);
 
 const std::vector<command_t> commands = {
     {{"project", "create"}, 1, &project_create},
     {{"project", "open"}, 1, &project_open},
     {{"project", "close"}, 0, &project_close},
+    {{"help"}, 0, &command_help},
+    {{"quit"}, 0, &command_quit},
 };
 
 int main()
@@ -51,11 +55,7 @@ bool main_menu(Budget_Battle& buba)
 
     const auto command = inputs.at(0);
 
-    if(command == "project" || command == "p")
-    {
-        command_project(buba, inputs);
-    }
-    else if(command == "import" || command == "i")
+    if(command == "import" || command == "i")
     {
         command_import(buba, inputs);
     }
@@ -79,56 +79,7 @@ bool main_menu(Budget_Battle& buba)
     {
         command_category(buba, inputs);
     }
-    else if(command == "help" || command == "h")
-    {
-        command_help();
-    }
-    else if(command == "quit" || command == "q")
-    {
-        return false;
-    }
     return true;
-}
-
-void command_project(Budget_Battle& buba, const inputs_t& inputs)
-{
-    if(inputs.size() < 2)
-    {
-        cerr << red << "[Error] missing arguments" << reset << endl;
-        return;
-    }
-
-    const auto subcmd = inputs.at(1);
-
-    const auto project_test = "./test.bubap";
-    const auto param        = (inputs.size() >= 3) ? inputs.at(2) : project_test;
-
-    if(subcmd == "new" || subcmd == "n")
-    {
-        if(param == project_test)
-            std::system(std::string("rm "s + project_test).c_str());
-
-        if(!buba.project_create(param))
-            cerr << red << "[Error] cannot create project:" << param << reset << endl;
-        else
-            cout << green << "[OK] project created" << reset << endl;
-    }
-    else if(subcmd == "open" || subcmd == "o")
-    {
-        if(!buba.project_open(param))
-            cerr << red << "[Error] cannot open project:" << param << reset << endl;
-        else
-            cout << green << "[OK] project opened:" << param << reset << endl;
-    }
-    else if(subcmd == "close" || subcmd == "c")
-    {
-        buba.project_close();
-        cout << green << "[OK] project closed" << reset << endl;
-    }
-    else
-    {
-        cerr << red << "[Error] unknown command" << reset << endl;
-    }
 }
 
 void command_import(Budget_Battle& buba, const inputs_t& inputs)
@@ -433,8 +384,11 @@ void command_category(Budget_Battle& buba, const inputs_t& inputs)
     }
 }
 
-void command_help()
+bool command_help(buba::Budget_Battle& buba, const param_t& params)
 {
+    (void) buba;
+    (void) params;
+
     cout << "\nHelp" << endl;
     cout << "    project (p)" << endl;
     cout << "        new   (n) [pathname]" << endl;
@@ -463,4 +417,13 @@ void command_help()
     cout << "        list (l)" << endl;
     cout << "    help (h)" << endl;
     cout << "    quit (q)" << endl;
+
+    return true;
+}
+
+bool command_quit(buba::Budget_Battle& buba, const param_t& params)
+{
+    (void) buba;
+    (void) params;
+    return false;
 }

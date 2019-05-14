@@ -15,7 +15,7 @@ struct command_t
 {
     std::vector<std::string> cmds;
     int n_params;
-    void (*cmd_cb)(buba::Budget_Battle&, const param_t& params);
+    bool (*cmd_cb)(buba::Budget_Battle&, const param_t& params);
 };
 
 bool process_command(const std::vector<command_t>& commands, buba::Budget_Battle& buba);
