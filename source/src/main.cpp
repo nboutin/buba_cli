@@ -1,5 +1,7 @@
 
+#include "command.h"
 #include "printer.h"
+#include "project.h"
 #include "read_input.h"
 #include "transaction.h"
 
@@ -25,63 +27,21 @@ void command_label(Budget_Battle& buba, const inputs_t& inputs);
 void command_category(Budget_Battle& buba, const inputs_t& inputs);
 void command_help();
 
-using param_t = std::vector<std::string>;
-
-struct command_t
-{
-    std::vector<std::string> cmds;
-    int n_params;
-    void (*cmd_cb)(Budget_Battle&, const param_t& params);
+const std::vector<command_t> commands = {
+    {{"project", "create"}, 1, &project_create},
+    {{"project", "open"}, 1, &project_open},
+    {{"project", "close"}, 0, &project_close},
 };
-
-void project_create(Budget_Battle& buba, const param_t& params);
-
-const std::vector<command_t> commands = {{{"project", "create"}, 1, &project_create}};
-
-void project_create(Budget_Battle& buba, const param_t& params)
-{
-    (void) buba;
-    (void) params;
-}
-
-bool process_command();
 
 int main()
 {
     Budget_Battle buba;
 
-    //    while(main_menu(buba))
-    while(process_command())
+    while(process_command(commands, buba))
     {
     }
 }
 
-bool process_command()
-{
-    const auto inputs = read_input("buba_cli");
-
-    if(inputs.size() == 0)
-        return true;
-
-    //    const & cmd = inputs.at(0);
-
-    auto r = std::find_if(commands.begin(), commands.end(), [&inputs](const command_t& c) {
-        if(inputs.size() < c.cmds.size())
-            return false;
-
-        return std::equal(c.cmds.begin(), c.cmds.end(), inputs.begin());
-    });
-
-    if(r != std::end(commands))
-    {
-        cout << "command found" << endl;
-    }
-    else
-    {
-        cout << "command not found" << endl;
-    }
-    return true;
-}
 bool main_menu(Budget_Battle& buba)
 {
     const auto inputs = read_input("buba_cli");

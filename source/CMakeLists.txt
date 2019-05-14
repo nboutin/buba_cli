@@ -6,6 +6,8 @@ add_executable(${PROJECT_NAME}
 	src/label.cpp
 	src/printer.cpp
 	src/read_input.cpp
+	src/project.cpp
+	src/command.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE inc)
