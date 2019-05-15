@@ -6,4 +6,6 @@ project_test
 comptes.ofx
 *.bubap
 log
-
+*.bbp
+test/manual/bbp/*.ofx
+bbp
