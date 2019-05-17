@@ -71,7 +71,7 @@ bool transaction_set_label_interactive(buba::Budget_Battle& buba, const param_t&
         print_table(table);
 
         // Ask user input
-        auto inputs = read_input("interactive[set <label>, pass, quit]");
+        auto inputs = read_input("interactive[set(s) <label>, pass(p), list (l), quit(q)]");
 
         if(inputs.size() < 1)
         {
@@ -110,6 +110,12 @@ bool transaction_set_label_interactive(buba::Budget_Battle& buba, const param_t&
         else if(cmd == "pass" || cmd == "p")
         {
             cout << green << "[OK] pass" << reset << endl;
+            continue;
+        }
+        else if(cmd == "list" || cmd == "l")
+        {
+            label_list(buba, {});
+            --i;
             continue;
         }
         else if(cmd == "quit" || cmd == "q")
